@@ -78,6 +78,7 @@ def handle_adaugare_valoare(cheltuieli):
     val = input('Dati o valoare care sa fie adaugata cheltuilelior din data specificata: ')
     cheltuieli=adunare_valoare(cheltuieli, data, val)
     print('Cheltuielile au fost modificate cu succes.')
+    return cheltuieli
 
 def handle_crud(cheltuieli):
     while True:

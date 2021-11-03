@@ -1,4 +1,4 @@
-def creeaza_cheltuiala(id_cheltuiala:int, numar_apartament, suma, data, tip_intretinere, tip_canal, tip_alte_cheltuieli):
+def creeaza_cheltuiala(id_cheltuiala:int, numar_apartament:int, suma, data, tip_intretinere, tip_canal, tip_alte_cheltuieli):
     '''
     Creeaza o cheltuiala.
     :param id_apartament: id-ul unei cheltuieli
@@ -44,7 +44,7 @@ def get_suma(cheltuiala):
     '''
     return cheltuiala['suma']
 
-def get_data(cheltuiala):
+def get_data(cheltuiala)->str:
     '''
     Getter pentru data la care a fost efectuata cheltuiala
     :param cheltuiala: cheltuiala

@@ -32,5 +32,4 @@ if __name__=='__main__':
     test_ordonare_descrescatoare()
     test_max_tip_cheltuiala()
     test_sum_lunare()
-    test_undo_redo()
     main()

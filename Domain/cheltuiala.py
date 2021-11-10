@@ -1,13 +1,11 @@
-def creeaza_cheltuiala(id_cheltuiala:int, numar_apartament:int, suma, data, tip_intretinere, tip_canal, tip_alte_cheltuieli):
+def creeaza_cheltuiala(id_cheltuiala:int, numar_apartament:int, suma, data, tip_cheltuiala):
     '''
     Creeaza o cheltuiala.
     :param id_apartament: id-ul unei cheltuieli
     :param numar_apartament: numarul apartamentului
     :param suma: suma cheltuielii
     :param data: data cheltuielii
-    :param tip_intretinere: cheltuiala de tip intretinere
-    :param tip_canal: cheltuiala de tip canal
-    :param tip_alte_cheltuieli: cheltuiala de alt tip
+    :param tip: tipul cheltuielii
     :return: o cheltuiala
     '''
     return {
@@ -15,9 +13,7 @@ def creeaza_cheltuiala(id_cheltuiala:int, numar_apartament:int, suma, data, tip_
         'numar': numar_apartament,
         'suma': suma,
         'data': data,
-        'intretinere': tip_intretinere,
-        'canal': tip_canal,
-        'alte_cheltuieli': tip_alte_cheltuieli,
+        'tip': tip_cheltuiala
     }
 
 def get_id(cheltuiala):
@@ -52,29 +48,25 @@ def get_data(cheltuiala)->str:
     '''
     return cheltuiala['data']
 
-def get_tip_intretinere(cheltuiala):
+def get_tip(cheltuiala):
     '''
     Getter pentru cheltuielile corespunzatoare intretinerii apartamentului
     :param cheltuiala: cheltuiala
     :return: cheltuiala legata de intretinere
     '''
-    return cheltuiala['intretinere']
+    return cheltuiala['tip']
 
-def get_tip_canal(cheltuiala):
+def get_nr_primit(lst_cheltuieli, numar_apartament):
     '''
-    Getter pentru cheltuielile necesare pentru canal
-    :param cheltuiala: cheltuiala
-    :return: cheltuiala pentru canal
+    Getter pentru a verifica daca un numar de apartament este sau nu in lista data
+    :param:lst_cheltuieli - lista cheltuielilor
+            numar_apartament- numarul apartamentului a carui verificare se face
+    :return: True daca exista numarul apartamentului dat in lista, False in caz contrar
     '''
-    return cheltuiala['canal']
-
-def get_tip_alte_cheltuieli(cheltuiala):
-    '''
-    Getter pentru cheltuielile suplimentare necesare unui apartament
-    :param cheltuiala: cheltuiala
-    :return: cheltuiala altor necesitati
-    '''
-    return cheltuiala['alte_cheltuieli']
+    for cheltuiala in lst_cheltuieli:
+        if get_numar_apartament(cheltuiala) == numar_apartament:
+            return True
+    return False
 
 def get_str(cheltuiala):
-    return f'Apartamentul cu id-ul {get_id(cheltuiala)}, cu numarul de apartament {get_numar_apartament(cheltuiala)}, are o cheltuiala {get_suma(cheltuiala)}, in data de {get_data(cheltuiala)}, cheltuielile legate de intretinere de {get_tip_intretinere(cheltuiala)}, de canal de {get_tip_canal(cheltuiala)}, plus alte cheltuieli {get_tip_alte_cheltuieli(cheltuiala)}'
+    return f'Apartamentul cu id-ul {get_id(cheltuiala)}, cu numarul de apartament {get_numar_apartament(cheltuiala)}, are o cheltuiala {get_suma(cheltuiala)}, in data de {get_data(cheltuiala)}, cheltuielile legate de intretinere de {get_tip(cheltuiala)}'

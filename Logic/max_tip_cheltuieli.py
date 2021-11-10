@@ -1,44 +1,22 @@
-from Domain.cheltuiala import get_suma, get_tip_alte_cheltuieli, get_tip_canal, get_tip_intretinere
+from Domain.cheltuiala import get_suma, get_tip
 
 
-def get_max_tip_intretinere(lst_cheltuieli):
+def get_max_tip_intretinere(lst_cheltuieli, undo_list, redo_list):
     '''
-    return: un dictionar in care cheia este tipul intretinerii si valoarea este cheltuiala cu suma de cheltuieli maxima
+    Determina cea mai mare cheltuiala corespunzatoare fiecarui tip de cheltuiala.
+    :param: lst_cheltuieli - lista cu cheltuielile
+    return: un dictionar in care cheia este tipul cheltuielii si valoarea este cea mai mare valoare pentru tipul respectiv
     '''
     result={}
     for cheltuiala in lst_cheltuieli:
-        intretinere=get_tip_intretinere(cheltuiala)
-        if intretinere not in result:
-            result[intretinere]=cheltuiala
+        tip_cheltuiala=get_tip(cheltuiala)
+        suma=get_suma(cheltuiala)
+        if tip_cheltuiala not in result:
+            result[tip_cheltuiala]=suma
         else:
-            if intretinere > get_tip_intretinere(result[intretinere]):
-                result[intretinere]=cheltuiala
+            if suma > result[tip_cheltuiala]:
+                result[tip_cheltuiala]=suma
+    undo_list.append(lst_cheltuieli)
+    redo_list.clear()
     return result
 
-def get_max_tip_canal(lst_cheltuieli):
-    '''
-    return: un dictionar in care cheia este tipul intretinerii si valoarea este cheltuiala cu suma de cheltuieli maxima
-    '''
-    result={}
-    for cheltuiala in lst_cheltuieli:
-        canal=get_tip_canal(cheltuiala)
-        if canal not in result:
-            result[canal]=cheltuiala
-        else:
-            if canal > get_tip_canal(result[canal]):
-                result[canal]=cheltuiala
-    return result
-
-def get_max_tip_alte_cheltuieli(lst_cheltuieli):
-    '''
-    return: un dictionar in care cheia este tipul intretinerii si valoarea este cheltuiala cu suma de cheltuieli maxima
-    '''
-    result2={}
-    for cheltuiala in lst_cheltuieli:
-        alte_cheltuieli=get_tip_alte_cheltuieli(cheltuiala)
-        if alte_cheltuieli not in result2:
-            result2[alte_cheltuieli]=cheltuiala
-        else:
-            if alte_cheltuieli > get_tip_alte_cheltuieli(result2[alte_cheltuieli]):
-                result2[alte_cheltuieli]=cheltuiala
-    return result2

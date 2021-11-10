@@ -1,7 +1,7 @@
 from Domain.cheltuiala import creeaza_cheltuiala
 from Logic.crud import create
 from Logic.undo_redo import do_undo
-from Tests.test_crud import get_data
+
 
 
 def test_undo_redo():

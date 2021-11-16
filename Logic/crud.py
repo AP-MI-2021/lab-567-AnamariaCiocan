@@ -21,10 +21,14 @@ def create(lst_cheltuieli, id_cheltuiala:int, numar_apartament, suma, data:str, 
     '''
     if read(lst_cheltuieli,id_cheltuiala) is not None:
         raise ValueError(f'exista deja o cheltuiala cu id-ul {(id_cheltuiala)}')
+    if tip_cheltuiala!='intretinere' and tip_cheltuiala!='canal' and tip_cheltuiala!='alte cheltuieli':
+        raise ValueError(f'Nu exista acest tip, reancercati cu unul dintre urmatoarele: intretinere, canal, alte cheltuieli')
+    if len(data)>10:
+        raise ValueError(f'Data introdusa este invalida')
     cheltuiala = creeaza_cheltuiala(id_cheltuiala, numar_apartament, suma, data, tip_cheltuiala)
-    undo_list.append(
-        (lambda lst: inverse_create(lst, id_cheltuiala),
-         lambda lst: lst.append(cheltuiala))
+    undo_list.append(lst_cheltuieli
+        #(lambda lst: inverse_create(lst, id_cheltuiala),
+         #lambda lst: lst.append(cheltuiala))
      )
     # undo_list = [f_lambda1]
     redo_list.clear()
@@ -40,10 +44,10 @@ def read(lst_cheltuieli, id_cheltuiala: int=None):
     if not id_cheltuiala:
         return lst_cheltuieli
     cheltuiala_cu_id = None
+    
     for cheltuiala in lst_cheltuieli:
-        if get_id(cheltuiala) == id_cheltuiala:
+        if get_id(cheltuiala)== id_cheltuiala:
             cheltuiala_cu_id=cheltuiala
-
     if cheltuiala_cu_id:
         return cheltuiala_cu_id
     return None

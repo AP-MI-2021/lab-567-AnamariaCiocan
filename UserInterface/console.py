@@ -15,6 +15,7 @@ def show_menu():
     print('4. Maximul cheltuielilor pentru fiecare tip dat.')
     print('5. Ordonarea cheltuielilor descrescator dupa suma.')
     print('6. Afisarea sumelor lunare pentru fiecare apartament')
+    print('a. Afisare')
     print('u. Undo')
     print('r. Redo')
     print('x. Exit')
@@ -25,7 +26,7 @@ def handle_add(cheltuieli,undo_list, redo_list):
         numar_apartament=int(input('Dati numarul apartamentului: '))
         suma=int(input('Dati suma cheltuielii: '))
         data=input('Dati data: ')
-        tip_cheltuiala=int(input('Dati tipul cheltuielii intretinerii: '))
+        tip_cheltuiala=input('Dati tipul cheltuielii(intretinere/alte cheltuieli/canal): ')
         return create(cheltuieli, id_cheltuiala, numar_apartament, suma, data, tip_cheltuiala, undo_list, redo_list)
     except ValueError as ve:
         print('Eroare', ve)
@@ -37,7 +38,7 @@ def handle_update(cheltuieli, undo_list, redo_list):
         numar_apartament=int(input('Dati noul numar al apartamentului: '))
         suma=float(input('Dati noua suma: '))
         data=input('Dati noua data: ')
-        tip_cheltuiala=input('Dati noua cheltuiala de tip intretinere: ')
+        tip_cheltuiala=input('Dati noul tip de cheltuiala: ')
         updated = creeaza_cheltuiala(id_cheltuiala, numar_apartament, suma, data, tip_cheltuiala)
         return update(cheltuieli, updated, undo_list, redo_list)
     except ValueError as ve:
@@ -54,9 +55,10 @@ def handle_delete(cheltuieli, undo_list, redo_list):
         print('Eroare ', ve)
     return cheltuieli
 
-def handle_show_all(cheltuieli):
-    for cheltuiala in cheltuieli:
+def handle_show_all(lst_cheltuieli):
+    for cheltuiala in lst_cheltuieli:
         print(get_str(cheltuiala))
+        
 
 def handle_show_details(cheltuieli):
     id_cheltuiala= int(input('Dati id-ul pentru care doriti detalii: '))
@@ -70,7 +72,7 @@ def handle_show_details(cheltuieli):
 def handle_stergere_cheltuieli(cheltuieli, undo_list, redo_list):
     try:
         numar_apartament = int(input('Dati numarul apartamentului pentru care se vor sterge cheltuielile: '))
-        cheltuieli= stergere_cheltuieli_pentru_un_apartament(cheltuieli, numar_apartament, [],[])
+        cheltuieli= stergere_cheltuieli_pentru_un_apartament(cheltuieli, numar_apartament, undo_list,redo_list)
         print('Cheltuielile au fost sterse cu succes')
         return cheltuieli
     except ValueError as ve:
@@ -78,12 +80,15 @@ def handle_stergere_cheltuieli(cheltuieli, undo_list, redo_list):
     
     return cheltuieli
 
-def handle_adaugare_valoare(cheltuieli, uno_list, redo_list):
-    data = input('Dati data pentru care se va aduna o valoare cheltuilelior: ')
-    val = int(input('Dati o valoare care sa fie adaugata cheltuilelior din data specificata: '))
-    cheltuieli=adunare_valoare(cheltuieli, data, val,[],[])
-    print('Cheltuielile au fost modificate cu succes.')
-    return cheltuieli
+def handle_adaugare_valoare(cheltuieli, undo_list, redo_list):
+    try:
+        data = input('Dati data pentru care se va aduna o valoare cheltuilelior: ')
+        val = int(input('Dati o valoare care sa fie adaugata cheltuilelior din data specificata: '))
+        cheltuieli=adunare_valoare(cheltuieli, data, val,undo_list,redo_list)
+        print('Cheltuielile au fost modificate cu succes.')
+        return cheltuieli
+    except ValueError as ve:
+        print('Eroare ', ve)
 
 def handle_crud(cheltuieli, undo_list, redo_list):
     while True:
@@ -91,6 +96,8 @@ def handle_crud(cheltuieli, undo_list, redo_list):
         print('2. Stergere')
         print('3. Modificare')
         print('a. Afisare')
+        print('u. Undo')
+        print('r. Redo')
         print('b. Revenire')
         print('d. Detalii cheltuiala')
         optiune = input('Optiunea aleasa: ')
@@ -102,6 +109,10 @@ def handle_crud(cheltuieli, undo_list, redo_list):
             cheltuieli=handle_update(cheltuieli, undo_list, redo_list)
         elif optiune == 'a':
             handle_show_all(cheltuieli)
+        elif optiune == 'u':
+            cheltuieli=handle_undo(cheltuieli, undo_list, redo_list)
+        elif optiune == 'r':
+            cheltuieli=handle_redo(cheltuieli, undo_list, redo_list)
         elif optiune =='d':
             handle_show_details(cheltuieli)
         elif optiune == 'b':
@@ -116,14 +127,14 @@ def handle_max_tip_cheltuieli(cheltuieli):
         print(f'Tipul {tip_cheltuiala} are suma maxima: {result[tip_cheltuiala]}')
    
 def handle_afisare_suma_lunara(cheltuieli):
-     result=get_suma_apartament(cheltuieli,[],[])
+     result=get_suma_apartament(cheltuieli)
      for numar_ap in result:
         print(f'Apartamentul cu numarul {numar_ap}, are cheltuielile lunare  de {result[numar_ap]}')
            
 
 
 def handle_ordonare_descrescatoare(cheltuieli, undo_list, redo_list):
-    ordonate=get_ordonare(cheltuieli,[],[])
+    ordonate=get_ordonare(cheltuieli,undo_list, redo_list)
     handle_show_all(ordonate)
 
 def handle_undo(cheltuieli, undo_list, redo_list):
@@ -146,7 +157,7 @@ def run_ui(cheltuieli, undo_list, redo_list):
         show_menu()
         optiune = input('Optiunea aleasa: ')
         if optiune == '1':
-            handle_crud(cheltuieli, undo_list, redo_list)
+            cheltuieli=handle_crud(cheltuieli, undo_list, redo_list)
         elif optiune == '2':
             cheltuieli=handle_stergere_cheltuieli(cheltuieli, undo_list, redo_list)
         elif optiune == '3':
@@ -154,9 +165,11 @@ def run_ui(cheltuieli, undo_list, redo_list):
         elif optiune == '4':
             handle_max_tip_cheltuieli(cheltuieli)
         elif optiune == '5':
-            handle_ordonare_descrescatoare(cheltuieli, undo_list, redo_list)
+            cheltuieli=handle_ordonare_descrescatoare(cheltuieli, undo_list, redo_list)
         elif optiune == '6':
             handle_afisare_suma_lunara(cheltuieli)
+        elif optiune == 'a':
+            handle_show_all(cheltuieli)
         elif optiune == 'u':
             cheltuieli=handle_undo(cheltuieli, undo_list, redo_list)
         elif optiune == 'r':

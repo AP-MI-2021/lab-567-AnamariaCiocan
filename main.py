@@ -15,13 +15,13 @@ def main():
     cheltuieli=[]
     undo_list = []
     redo_list = []
-    cheltuieli= create(cheltuieli, 6, 23, 200, '29.09.2009', 'intretinere',[],[])
-    cheltuieli= create(cheltuieli, 2, 33, 150, '11.11.2020', 'canal',[],[])
-    cheltuieli=create(cheltuieli, 3, 23, 170, '12.08.2004', 'alte cheltuieli',[],[])
-    cheltuieli=create(cheltuieli, 1, 24, 270, '29.07.2002', 'intretinere',[],[])
-    cheltuieli=create(cheltuieli, 5, 23, 400, '28.04.2017', 'alte cheltuieli',[],[])
+    cheltuieli= create(cheltuieli, 6, 23, 200, '29.09.2009', 'intretinere',undo_list,redo_list)
+    cheltuieli= create(cheltuieli, 2, 33, 150, '11.11.2020', 'canal',undo_list, redo_list)
+    cheltuieli=create(cheltuieli, 3, 23, 170, '12.08.2004', 'alte cheltuieli',undo_list, redo_list)
+    cheltuieli=create(cheltuieli, 1, 24, 270, '29.07.2002', 'intretinere',undo_list, redo_list)
+    cheltuieli=create(cheltuieli, 5, 23, 400, '28.04.2017', 'alte cheltuieli',undo_list, redo_list)
     cheltuieli=run_ui(cheltuieli, undo_list, redo_list)
-
+    
 
 
 
@@ -32,4 +32,5 @@ if __name__=='__main__':
     test_ordonare_descrescatoare()
     test_max_tip_cheltuiala()
     test_sum_lunare()
+    test_undo_redo()
     main()

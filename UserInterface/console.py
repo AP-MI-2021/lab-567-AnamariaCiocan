@@ -128,8 +128,8 @@ def handle_max_tip_cheltuieli(cheltuieli):
    
 def handle_afisare_suma_lunara(cheltuieli):
      result=get_suma_apartament(cheltuieli)
-     for numar_ap in result:
-        print(f'Apartamentul cu numarul {numar_ap}, are cheltuielile lunare  de {result[numar_ap]}')
+     for luna in result:
+        print(f'Pentru luna: {luna}, cheltuielile lunare sunt de {result[luna]}')
            
 
 

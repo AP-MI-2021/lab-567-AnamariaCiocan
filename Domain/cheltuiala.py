@@ -11,7 +11,7 @@ def creeaza_cheltuiala(id_cheltuiala:int, numar_apartament:int, suma, data, tip_
     return [
          id_cheltuiala,
          numar_apartament,
-        suma,
+         suma,
          data,
          tip_cheltuiala
     ]

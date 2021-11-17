@@ -6,6 +6,6 @@ def test_sum_lunare():
     cheltuieli=get_data()
     new_cheltuieli= get_suma_apartament(cheltuieli)
     assert len(new_cheltuieli) == 4
-    assert new_cheltuieli[23] == 2100
-    assert new_cheltuieli[22] == 2300
+    assert new_cheltuieli['09'] == 2300
+    assert new_cheltuieli['10'] == 1300
     
